@@ -22,14 +22,14 @@ class Panel extends React.Component {
 
   changePanel(props){
     const { panel, panelName, navigation, children, exact, ignoreWhen } = props;
-    children = children.map?this.props.children:[this.props.children];
+    childSet = children.map?this.props.children:[this.props.children];
     if(ignoreWhen){
        this.foundElement = '';
        return true
     }
     let params={}
     const location = navigation.getIn(["data", "location"])||"/"
-    const allowedChildren = children.filter(c => c.type === Route)
+    const allowedChildren = childSet.filter(c => c.type === Route)
     for(var i = 0; i<allowedChildren.length; i++){
       const child = allowedChildren[i];
       const findParams = new RegExp(/:([^\/]*)/, "g")

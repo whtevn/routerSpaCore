@@ -68,13 +68,14 @@ var Panel = function (_React$Component) {
           exact = props.exact,
           ignoreWhen = props.ignoreWhen;
 
+      childSet = children.map ? this.props.children : [this.props.children];
       if (ignoreWhen) {
         this.foundElement = '';
         return true;
       }
       var params = {};
       var location = navigation.getIn(["data", "location"]) || "/";
-      var allowedChildren = children.filter(function (c) {
+      var allowedChildren = childSet.filter(function (c) {
         return c.type === _component2.default;
       });
 

@@ -41,9 +41,7 @@ var Panel = function (_React$Component) {
       return this.props.ignoreWhen ? '' : _react2.default.createElement(
         'div',
         { className: (this.props.className || "") + " " + this.props.panelName },
-        this.foundElement ? _react2.default.cloneElement(this.foundElement, _extends({}, this.props, {
-          children: this.foundElement.props.children
-        })) : ""
+        this.changePanel(this.props, false)
       );
     }
   }, {
@@ -61,6 +59,7 @@ var Panel = function (_React$Component) {
     value: function changePanel(props) {
       var _this2 = this;
 
+      var announce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var panel = props.panel,
           panelName = props.panelName,
           navigation = props.navigation,
@@ -68,43 +67,32 @@ var Panel = function (_React$Component) {
           exact = props.exact,
           ignoreWhen = props.ignoreWhen;
 
-      childSet = children.map ? this.props.children : [this.props.children];
       if (ignoreWhen) {
-        this.foundElement = '';
         return true;
       }
-      var params = {};
+      var params = void 0,
+          foundElement = void 0;
       var location = navigation.getIn(["data", "location"]) || "/";
-      var allowedChildren = childSet.filter(function (c) {
-        return c.type === _component2.default;
-      });
-
-      var _loop = function _loop() {
-        var child = allowedChildren[i];
-        var findParams = new RegExp(/:([^\/]*)/, "g");
-        var query = child.props.when.replace(findParams, "([^\\/]*)");
-        var regx = exact ? new RegExp('^' + query + '$') : new RegExp('^' + query + '.*');
-        var found = location.match(regx);
-        if (found) {
-          var paramValues = child.props.when.match(findParams);
-          if (paramValues) {
-            params = paramValues.reduce(function (result, next, key) {
-              result[next.replace(":", "")] = found[key + 1];
-              return result;
-            }, {});
+      _react2.default.Children.forEach(children, function (child) {
+        if (!foundElement) {
+          var findParams = new RegExp(/:([^\/]*)/, "g");
+          var query = child.props.when.replace(findParams, "([^\\/]*)");
+          var regx = exact ? new RegExp('^' + query + '$') : new RegExp('^' + query + '.*');
+          var _found = location.match(regx);
+          if (_found) {
+            var paramValues = child.props.when.match(findParams);
+            if (paramValues) {
+              params = paramValues.reduce(function (result, next, key) {
+                result[next.replace(":", "")] = _found[key + 1];
+                return result;
+              }, {});
+            }
+            foundElement = _react2.default.cloneElement(child, _extends({}, _this2.props, child.props, { params: params }));
           }
-          _this2.foundElement = _react2.default.cloneElement(child, _extends({}, _this2.props, child.props, { params: params }));
-          return 'break';
         }
-      };
-
-      for (var i = 0; i < allowedChildren.length; i++) {
-        var _ret = _loop();
-
-        if (_ret === 'break') break;
-      }
-      if (!this.foundElement) return true;
-      var route = this.foundElement.props.when;
+      });
+      if (!foundElement) return true;
+      var route = foundElement.props.when;
 
       var current = panel.getIn(["data", panelName]);
       var found = {
@@ -112,7 +100,8 @@ var Panel = function (_React$Component) {
         route: route,
         params: params
       };
-      if ((0, _reducer.panelChanged)({ current: current, found: found })) this.props.rendering(found);
+      if (announce && (0, _reducer.panelChanged)({ current: current, found: found })) this.props.rendering(found);
+      return foundElement;
     }
   }]);
 

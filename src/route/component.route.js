@@ -1,21 +1,7 @@
 import React from 'react';
 class Route extends React.Component {
   render() {
-    return this.props.render ?
-    <this.props.render { ...this.props } />:
-          typeof this.props.children === "string" ?
-          this.props.children : (
-						this.props.children.map?
-						this.props.children.map(
-							(child, key) =>
-									typeof child === "string" ?
-									child :
-									React.cloneElement(child, {
-									 ...child.props,
-									 key,
-									})
-						):
-						this.props.children )
+    return this.props.render ? React.createElement(this.props.render, this.props) : this.props.children
   }
 }
 

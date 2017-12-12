@@ -22,6 +22,7 @@ class Panel extends React.Component {
 
   changePanel(props){
     const { panel, panelName, navigation, children, exact, ignoreWhen } = props;
+    children = children.map?this.props.children:[this.props.children];
     if(ignoreWhen){
        this.foundElement = '';
        return true

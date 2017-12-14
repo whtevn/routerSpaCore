@@ -14,7 +14,9 @@ class Panel extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(this.props.navigation.getIn(["data", "location"]) != nextProps.navigation.getIn(["data", "location"])) this.changePanel(nextProps)
+    if(this.props.navigation.getIn(["data", "location"]) != nextProps.navigation.getIn(["data", "location"])){
+      this.changePanel(nextProps)
+    }
   }
 
   changePanel(props, announce=true){
@@ -40,7 +42,7 @@ class Panel extends React.Component {
 							return result;
 						}, {})
 					}
-					foundElement = React.cloneElement(child, { ...this.props, ...child.props, params });
+					foundElement = React.cloneElement(child);
 				}
 			}
     })
@@ -53,7 +55,10 @@ class Panel extends React.Component {
       route,
       params
     }
-    if(announce && panelChanged({ current, found })) this.props.rendering(found);
+    if(announce && panelChanged({ current, found })){
+      if(foundElement.props.onRender) foundElement.props.onRender(params, foundElement.props)
+      this.props.rendering(found);
+    }
 		return foundElement;
   }
 }

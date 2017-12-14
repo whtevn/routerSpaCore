@@ -18,6 +18,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var NOOP = function NOOP() {};
+
 var Link = function (_React$Component) {
   _inherits(Link, _React$Component);
 
@@ -30,17 +32,23 @@ var Link = function (_React$Component) {
   _createClass(Link, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var location = this.props.navigation.getIn(["data", "location"]) || "/";
       var current = this.props.to && location.match(this.props.to);
       var navigation = this.props.navigateWith;
       var href = "#" + (navigation ? "" : this.props.to);
+      var _onClick = this.props.onClick || NOOP;
 
       return _react2.default.createElement(
         "a",
         {
           href: href,
           className: current ? "is-selected" : "",
-          onClick: navigation && this.goto.bind(this) },
+          onClick: function onClick() {
+            _onClick();
+            navigation && _this2.goto.bind(_this2);
+          } },
         this.props.children
       );
     }

@@ -7,3 +7,11 @@ export const Render = ( payload ) => {
     payload
   }
 }
+
+export const GOTO = `${Type} GOTO`;
+export const Goto = ( payload ) => {
+  return {
+    type: GOTO,
+    payload
+  }
+}

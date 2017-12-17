@@ -9,6 +9,9 @@ export const initialState = fromJS({
 export const Reducer = (state, action) => {
   let payload;
   switch (action.type) {
+    case Actions.GOTO:
+      window.location=`#${action.payload}`;
+      return state
     case Actions.RENDER:
       return state
         .setIn(["data", action.payload.panelName], fromJS(action.payload));

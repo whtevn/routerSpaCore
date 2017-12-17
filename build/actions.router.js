@@ -12,3 +12,11 @@ var Render = exports.Render = function Render(payload) {
     payload: payload
   };
 };
+
+var GOTO = exports.GOTO = Type + " GOTO";
+var Goto = exports.Goto = function Goto(payload) {
+  return {
+    type: GOTO,
+    payload: payload
+  };
+};

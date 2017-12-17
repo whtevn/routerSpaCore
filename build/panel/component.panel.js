@@ -36,11 +36,7 @@ var Panel = function (_React$Component) {
   _createClass(Panel, [{
     key: 'render',
     value: function render() {
-      return this.props.ignoreWhen ? '' : _react2.default.createElement(
-        'div',
-        { className: (this.props.className || "") + " " + this.props.panelName },
-        this.changePanel(this.props, false)
-      );
+      return this.props.ignoreWhen ? '' : this.changePanel(this.props, false);
     }
   }, {
     key: 'componentDidMount',
@@ -62,7 +58,6 @@ var Panel = function (_React$Component) {
           panelName = props.panelName,
           navigation = props.navigation,
           children = props.children,
-          exact = props.exact,
           ignoreWhen = props.ignoreWhen;
 
       if (ignoreWhen) {
@@ -75,7 +70,7 @@ var Panel = function (_React$Component) {
         if (!foundElement) {
           var findParams = new RegExp(/:([^\/]*)/, "g");
           var query = child.props.when.replace(findParams, "([^\\/]*)");
-          var regx = exact ? new RegExp('^' + query + '$') : new RegExp('^' + query + '.*');
+          var regx = child.props.exact ? new RegExp('^' + query + '$') : new RegExp('^' + query + '.*');
           var _found = location.match(regx);
           if (_found) {
             var paramValues = child.props.when.match(findParams);

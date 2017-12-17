@@ -4,9 +4,7 @@ import { panelChanged } from '../reducer.router';
 
 class Panel extends React.Component {
   render() {
-    return this.props.ignoreWhen?'':<div className={(this.props.className||"")+" "+this.props.panelName}>
-      { this.changePanel(this.props, false) }
-    </div>
+    return this.props.ignoreWhen ? '' : this.changePanel(this.props, false)
   }
 
   componentDidMount(){
@@ -20,7 +18,7 @@ class Panel extends React.Component {
   }
 
   changePanel(props, announce=true){
-    const { panel, panelName, navigation, children, exact, ignoreWhen } = props;
+    const { panel, panelName, navigation, children, ignoreWhen } = props;
     if(ignoreWhen){
        return true
     }
@@ -30,7 +28,7 @@ class Panel extends React.Component {
 			if(!foundElement){
 				const findParams = new RegExp(/:([^\/]*)/, "g")
 				const query = child.props.when.replace(findParams, "([^\\/]*)");
-				const regx = exact ?
+				const regx = child.props.exact ?
 											new RegExp(`^${query}$`) :
 											new RegExp(`^${query}.*`) ;
 				const found = location.match(regx)

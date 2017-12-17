@@ -20,6 +20,9 @@ var initialState = exports.initialState = (0, _immutable.fromJS)({
 var Reducer = exports.Reducer = function Reducer(state, action) {
   var payload = void 0;
   switch (action.type) {
+    case Actions.GOTO:
+      window.location = '#' + action.payload;
+      return state;
     case Actions.RENDER:
       return state.setIn(["data", action.payload.panelName], (0, _immutable.fromJS)(action.payload));
     default:

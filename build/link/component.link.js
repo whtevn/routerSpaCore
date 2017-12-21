@@ -44,7 +44,7 @@ var Link = function (_React$Component) {
         "a",
         {
           href: href,
-          className: current ? "is-selected" : "",
+          className: (this.props.className || "") + (current ? " is-selected" : ""),
           onClick: function onClick() {
             _onClick();
             navigation && _this2.goto.bind(_this2);

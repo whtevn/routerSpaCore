@@ -10,7 +10,7 @@ class Link extends React.Component {
 
     return <a
              href={href}
-             className={current?"is-selected":""}
+             className={(this.props.className||"")+(current?" is-selected":"")}
              onClick={
 							()=>{
 								onClick();
